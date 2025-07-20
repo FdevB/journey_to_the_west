@@ -9,7 +9,7 @@ class CategoryModel(models.Model):
     """
     Create a category model for set the ctaegories for posts in our Blog_app
 
-    Attributes:
+    Field:
         1. name: name of category
         2. slug: a link derived from the name (non-editable)
     """
@@ -34,7 +34,7 @@ class TagModel(models.Model):
     """
     Create a tag model for set the tags for posts in our Blog_app
 
-    Attributes:
+    Field:
         1. name: name of tag
         2. slug: a link derived from the name (non-editable)
     """
@@ -58,7 +58,7 @@ class PostModel(models.Model):
     """
     Create a post model for posts in our Blog_app
     
-    Attributes:
+    Field:
         1. title: title of post
         2. description: description of post
             2.1. I used 'CKEditor' to increase the flexibility and capabilities of the structure. but if you dont want it can use simple way
