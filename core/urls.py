@@ -13,6 +13,9 @@ urlpatterns = [
     path('blog/', include('blog_app.urls')),
     path('about-us/', include('about_app.urls')),
     path('contact-us/', include('contact_app.urls')),
+
+    # Library
+    path('ckeditor/', include('django_ckeditor_5.urls'))
 ]
 
 if settings.DEBUG:
