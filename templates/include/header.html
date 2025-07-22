@@ -29,12 +29,7 @@
                 <ul class="nav-menu">
                     <li><a href="{% url 'home_app:home' %}">Home</a></li>
                     <li><a href="{% url 'about_app:about-us' %}">About</a></li>
-                    <li class="menu-has-children"><a href="">Blog</a>
-                        <ul>
-                            <li><a href="{% url 'blog_app:blog' %}">Blog Home</a></li>
-                            <li><a href="{% url 'blog_app:blog-detail' %}">Blog Single</a></li>
-                        </ul>
-                    </li>
+                    <li><a href="{% url 'blog_app:blog' %}">Blog</a></li>
                     <li class="menu-has-children"><a href="">Pages</a>
                         <ul>
                             <li><a href="elements.html">Elements</a></li>

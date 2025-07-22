@@ -166,7 +166,7 @@ CKEDITOR_5_CONFIGS  = {
 
     },
     'extends': {
-        'language': 'fa',
+        'language': 'en',
         'blockToolbar': [
             'paragraph', 'heading1', 'heading2', 'heading3',
             '|',
