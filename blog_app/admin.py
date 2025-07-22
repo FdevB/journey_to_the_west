@@ -6,10 +6,12 @@ from blog_app import models
 @admin.register(models.CategoryModel)
 class CategoryAdmin(admin.ModelAdmin):
     """
-    create model controler in admin page for categories
+    Admin configuration for the CategoryModel.
 
-    Field:
-        1. readonly_fields (slug): in admin page slug just readable 
+    This class registers CategoryModel in the Django admin interface with all its features.
+
+    Attributes:
+        readonly_fields (list[str]): A list of field names to set as read-only.
     """
     
     readonly_fields = ['slug']
@@ -17,10 +19,12 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(models.TagModel)
 class TagAdmin(admin.ModelAdmin):
     """
-    create model controler in admin page for tags
+    Admin configuration for the TagModel.
 
-    Field:
-        1. readonly_fields (slug): in admin page slug just readable 
+    This class registers TagModel in the Django admin interface with all its features.
+
+    Attributes:
+        readonly_fields (list[str]): A list of field names to set as read-only.
     """
 
     readonly_fields = ['slug']
@@ -28,14 +32,16 @@ class TagAdmin(admin.ModelAdmin):
 @admin.register(models.PostModel)
 class PostAdmin(admin.ModelAdmin):
     """
-    create model controler in admin page for posts
+    Admin configuration for the PostModel.
 
-    Field:
-        1. date_hierarchy (published_at): enables date-based navigation
-        2. list_display: columns to show
-        3. list_filter: sidebar filters
-        4. search_fields: searchable fields
-        5. readonly_fields (slug): it is read-only 
+    This class registers PostModel in the Django admin interface with all its features.
+
+    Attributes:
+        date_hierarchy (str): Enables date-based navigation by the specified date field.
+        list_display (list[str]): Fields to display as columns in the list view.
+        list_filter (list[str]): Fields to filter by in the sidebar.
+        search_fields (list[str]): Fields that are searchable in the admin.
+        readonly_fields (list[str]): Fields set as read-only in the admin form.
     """
 
     date_hierarchy = 'published_at'

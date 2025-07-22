@@ -7,11 +7,13 @@ from django.utils.text import slugify
 # Create your models here.
 class CategoryModel(models.Model):
     """
-    Create a category model for set the ctaegories for posts in our Blog_app
+    Model definition for CategoryModel.
 
-    Field:
-        1. name: name of category
-        2. slug: a link derived from the name (non-editable)
+    This class defines the CategoryModel database schema and its related behaviors.
+
+    Attributes:
+        name (CharField): Name of category.
+        slug (SlugField): A link derived from the name (non-editable).
     """
 
     name = models.CharField(max_length=50)
@@ -26,17 +28,23 @@ class CategoryModel(models.Model):
         return self.name
     
     def save(self, *args, **kwargs):
+        """
+        Overrides the default save method to automatically set the slug field.
+        """
+        
         self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
 
 class TagModel(models.Model):
     """
-    Create a tag model for set the tags for posts in our Blog_app
+    Model definition for TagModel.
 
-    Field:
-        1. name: name of tag
-        2. slug: a link derived from the name (non-editable)
+    This class defines the TagModel database schema and its related behaviors.
+
+    Attributes:
+        name (CharField): Name of category.
+        slug (SlugField): A link derived from the name (non-editable).
     """
 
     name = models.CharField(max_length=50)
@@ -50,28 +58,34 @@ class TagModel(models.Model):
         return self.name
     
     def save(self, *args, **kwargs):
+        """
+        Overrides the default save method to automatically set the slug field.
+        """
+
         self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
 
 class PostModel(models.Model):
     """
-    Create a post model for posts in our Blog_app
-    
-    Field:
-        1. title: title of post
-        2. description: description of post
-            2.1. I used 'CKEditor' to increase the flexibility and capabilities of the structure. but if you dont want it can use simple way
-        3. banner: banner of post
-        4. author: author of post 1:n relation
-        5. categories: categories of post
-        6. tags: tags of post m:n relation
-        7. status: status of post (pub or draft)
-        8. views: count of views of post
-        9. created_at: date of create post
-        10. updated_at: date of update post
-        11. published_at: datetime of pubish post
-        12. slug: a link derived from the title (non-editable)
+    Model definition for PostModel.
+
+    This class defines the PostModel database schema and its related behaviors.
+    This model uses CKEditor for the description field to provide rich text editing capabilities. If not required, it can be replaced with a standard TextField.
+
+    Attributes:
+        title (CharField): Title of the post.
+        description (CKEditor5Field): Description of the post with rich text support.
+        banner (ImageField): Banner image of the post.
+        author (ForeignKey to User): Author of the post.
+        categories (ManyToManyField to CategoryModel): Categories assigned to the post.
+        tags (ManyToManyField to TagModel): Tags assigned to the post.
+        status (BooleanField): Status of the post (published or draft).
+        views (BigIntegerField): Number of views for the post.
+        created_at (DateField): Date when the post was created.
+        updated_at (DateField): Date when the post was last updated.
+        published_at (DateTimeField): Date and time when the post was published.
+        slug (SlugField): Slug derived from the title (non-editable).
     """
 
     title = models.CharField(max_length=150)
@@ -100,5 +114,9 @@ class PostModel(models.Model):
         return self.title
     
     def save(self, *args, **kwargs):
+        """
+        Overrides the default save method to automatically set the slug field.
+        """ 
+
         self.slug = slugify(self.title)
         super().save(*args, **kwargs)
