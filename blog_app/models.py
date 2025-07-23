@@ -3,6 +3,7 @@ from django_ckeditor_5.fields import CKEditor5Field
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
+from django.utils import timezone
 
 # Create your models here.
 class CategoryModel(models.Model):
@@ -97,12 +98,16 @@ class PostModel(models.Model):
     categories = models.ManyToManyField(CategoryModel, related_name='post')
     tags = models.ManyToManyField(TagModel, related_name='post')
 
-    status = models.BooleanField(default=False)
+    STATUS_CHOICES = [
+        ('draft', 'Draft'),
+        ('published', 'Published')
+    ]
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
     views = models.BigIntegerField(default=0)
 
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
-    published_at = models.DateTimeField()
+    published_at = models.DateTimeField(blank=True, null=True)
 
     slug = models.SlugField(unique=True)
 
@@ -119,4 +124,14 @@ class PostModel(models.Model):
         """ 
 
         self.slug = slugify(self.title)
+
+        if (self.status == 'published') and (self.published_at is None):
+            self.published_at = timezone.now()
+
+        elif (self.published_at is not None) and (timezone.now() >= self.published_at):
+            self.status = 'published'
+
+        else:
+            self.status = 'draft'
+
         super().save(*args, **kwargs)
