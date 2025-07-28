@@ -5,6 +5,11 @@ from django.contrib.auth.models import User
 from django.utils.text import slugify
 from django.utils import timezone
 
+import bleach
+from bleach.css_sanitizer import CSSSanitizer
+
+from core import settings
+
 # Create your models here.
 class CategoryModel(models.Model):
     """
@@ -125,6 +130,7 @@ class PostModel(models.Model):
 
         self.slug = slugify(self.title)
 
+
         if (self.status == 'published') and (self.published_at is None):
             self.published_at = timezone.now()
 
@@ -133,5 +139,15 @@ class PostModel(models.Model):
 
         else:
             self.status = 'draft'
+
+
+        self.description = bleach.clean(
+            self.description,
+            settings.BLEACH_ALLOWED_TAGS,
+            settings.BLEACH_ALLOWED_ATTRS,
+            strip = settings.BLEACH_STRIP_TAGS,
+            strip_comments = settings.BLEACH_STRIP_COMMENTS,
+            css_sanitizer = CSSSanitizer(settings.BLEACH_ALLOWES_STYLES),
+        )
 
         super().save(*args, **kwargs)
