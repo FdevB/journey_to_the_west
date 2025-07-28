@@ -29,6 +29,7 @@ def blog_view(request):
     }
     return render(request, template_name, context)
 
+
 def blog_detail_view(request, slug):
     """
     View for handling requests to the /blog/detail/<slug> endpoint for PostModel.
