@@ -3,12 +3,11 @@ from django.template.defaultfilters import stringfilter
 
 import random
 
-from blog_app.models import CategoryModel
 
 register = template.Library()
 
 @register.filter(name='get_random')
-def get_random_object(sequence, count=1):
+def get_random_objects(sequence, count=1):
     """
     Return a list of `count` random objects selected from the given sequence.
 
@@ -31,24 +30,43 @@ def get_random_object(sequence, count=1):
 
 
 @register.simple_tag(name='get_same')
-def get_same_object(sequence, related_name):
+def get_same_objects(sequence, related_name, kind='c'):
     """
     Return a list of objects that share at least one category with the items in the sequence,
     but are not themselves in the sequence.
 
     Arguments:
+        type (str): Select subscription type.
         sequence (list): A sequense of any objects.
         related_name (str): A related_name for reverse relation.
 
     Returns:
+        types (dict): All selected modes for the subscription type
         same_object (list): List of objects that are similar in category from sequence.
     """
 
+    types = {
+        't': 'tags',
+        'u': 'author',
+        'c': 'categories',
+    }
+
     same_object = set()
-    for item in sequence:
-        for category in item.categories.all():
-            same_object.update(getattr(category, related_name).all())
+    if (kind == 't') or (kind == 'c'):
+        for item in sequence:
+            for common_ground in getattr(item,  types[kind]).all():
+                same_object.update(getattr(common_ground, related_name).all())
+
+    else:
+        for item in sequence:
+            user = item.author
+            same_object.update(getattr(user, related_name).all())
 
     same_object = list(same_object - set(sequence))
 
     return same_object
+
+
+# @register.inclusion_tag()
+# def get_last_objects(sequence, count):
+#     pass
