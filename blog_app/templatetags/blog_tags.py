@@ -1,5 +1,4 @@
 from django import template
-from django.template.defaultfilters import stringfilter
 
 import random
 
@@ -36,12 +35,14 @@ def get_same_objects(sequence, related_name, kind='c'):
     but are not themselves in the sequence.
 
     Arguments:
-        type (str): Select subscription type.
+        kind (str): Select subscription type.
         sequence (list): A sequense of any objects.
         related_name (str): A related_name for reverse relation.
 
+    Variable:
+        types (dict): All selected modes for the subscription type.
+
     Returns:
-        types (dict): All selected modes for the subscription type
         same_object (list): List of objects that are similar in category from sequence.
     """
 
@@ -67,6 +68,27 @@ def get_same_objects(sequence, related_name, kind='c'):
     return same_object
 
 
-# @register.inclusion_tag()
-# def get_last_objects(sequence, count):
-#     pass
+@register.filter(name='sort_by')
+def sort_objects_by(sequence, field_with_limit):
+    """
+    Return a sorted list of objects in a sequence with given field.
+
+    Arguments:
+        sequence (Queryset): A sequense of any objects.
+        field_with_limit (str): Field name to sort by, optionally followed by a count (e.g. "-created 10").
+
+    Returns:
+        sorted_objects (Queryset): Queryset of objects sorted by filter_field and len args[0].
+    """
+
+    parts = field_with_limit.split()
+    field = parts[0] if parts else None
+    count = int(parts[1]) if parts[1].isdigit() and len(parts) == 2 else None
+
+    if not field:
+        return sequence
+
+    sorted_objects = (sequence.order_by(field)[:count]) if count else (sequence.order_by(field))
+
+
+    return sorted_objects

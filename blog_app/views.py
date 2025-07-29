@@ -21,7 +21,7 @@ def blog_view(request):
         HttpResponse: Rendered HTML response with context data.
     """
 
-    posts = PostModel.objects.filter(status=1)
+    posts = PostModel.objects.filter(status='published')
 
     template_name = 'blog_app/blog.html'
     context = {

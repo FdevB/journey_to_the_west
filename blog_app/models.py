@@ -118,7 +118,6 @@ class PostModel(models.Model):
 
     class Meta:
         verbose_name = 'Post'
-        ordering = ['-updated_at']
 
     def __str__(self):
         return self.title
