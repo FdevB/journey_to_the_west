@@ -1,4 +1,7 @@
 from django import template
+from django.contrib.auth.models import User
+
+from blog_app.models import PostModel, CategoryModel, TagModel
 
 import random
 
@@ -11,7 +14,7 @@ def get_random_objects(sequence, count=1):
     Return a list of `count` random objects selected from the given sequence.
 
     Arguments:
-        sequence (list): A sequense of any objects.
+        sequence (list): A sequence of any objects.
         count (int): Number of random items to return.
 
     Returns:
@@ -36,7 +39,7 @@ def get_same_objects(sequence, related_name, kind='c'):
 
     Arguments:
         kind (str): Select subscription type.
-        sequence (list): A sequense of any objects.
+        sequence (list): A sequence of any objects.
         related_name (str): A related_name for reverse relation.
 
     Variable:
@@ -74,7 +77,7 @@ def sort_objects_by(sequence, field_with_limit):
     Return a sorted list of objects in a sequence with given field.
 
     Arguments:
-        sequence (Queryset): A sequense of any objects.
+        sequence (Queryset): A sequence of any objects.
         field_with_limit (str): Field name to sort by, optionally followed by a count (e.g. "-created 10").
 
     Returns:
@@ -83,7 +86,7 @@ def sort_objects_by(sequence, field_with_limit):
 
     parts = field_with_limit.split()
     field = parts[0] if parts else None
-    count = int(parts[1]) if parts[1].isdigit() and len(parts) == 2 else None
+    count = int(parts[1]) if len(parts) == 2 and parts[1].isdigit() else None
 
     if not field:
         return sequence
@@ -92,3 +95,42 @@ def sort_objects_by(sequence, field_with_limit):
 
 
     return sorted_objects
+
+
+@register.inclusion_tag('blog_app/blog_sidebar.html', name='side_bar')
+def include_blog_sidebar():
+    """
+    Return a dict to blog_app/blog_sidebar.html as context.
+
+    Variable:
+        posts (Queryset): A sequence of all Post objects.
+        users (Queryset): A sequence of all User objects.
+        Tags (Queryset): A sequence of all Tag objects.
+        raw_categories (Queryset): A sequence of all Categories objects.
+        categories (dict): A dict to give name as key and count of post as value.
+
+    Returns:
+        data (dict): return a context as data name.
+    """
+
+    posts = PostModel.objects.filter(status='published')
+    users = User.objects.all()
+    raw_categories = CategoryModel.objects.all()
+    tags = TagModel.objects.all()
+
+    categories = {}
+    for category in raw_categories:
+        name = category.name
+        slug = category.slug
+        count = posts.filter(categories__name=name).count()
+
+        categories[name] = [slug, count]
+
+    data = {
+        'posts': posts,
+        'users': users,
+        'tags': tags,
+        'categories': categories,
+    }
+
+    return data

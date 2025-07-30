@@ -1,0 +1,97 @@
+{% load static %}
+
+{% load blog_tags %}
+
+<div class="col-lg-4 sidebar-widgets">
+    <div class="widget-wrap">
+        <div class="single-sidebar-widget search-widget">
+            <form class="search-form" action="{% url 'blog_app:blog' %}">
+                <input placeholder="Search Posts" name="search" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Posts'">
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+
+        {% for user in users|get_random %}
+        <div class="single-sidebar-widget user-info-widget">
+            <img src="{{ user.avatar.url }}" alt="avatar">
+            <a href="#">
+                <h4>{{ user.username }}</h4>
+            </a>
+            <p>
+                {{ user.career }}
+            </p>
+            <ul class="social-links">
+                {% for social in user.social %}
+                <li><a href="#"><i class="fa fa-{{ social.name }}"></i></a></li>
+                {% endfor %}
+            </ul>
+            <p>
+                {{ user.bio }}
+            </p>
+        </div>
+        {% endfor %}
+
+        <div class="single-sidebar-widget popular-post-widget">
+            <h4 class="popular-title">Popular Posts</h4>
+            <div class="popular-post-list">
+
+                {% for post in posts|sort_by:'-views 4' %}
+                <div class="single-post-list d-flex flex-row align-items-center">
+                    <div class="thumb">
+                        <img class="img-fluid" src="{{ post.banner.url }}" alt="banner" style="width: 100px; height: 60px; object-fit: cover;">
+                    </div>
+                    <div class="details">
+                        <a href="{% url 'blog_app:blog-detail' post.slug %}">
+                            <h6>{{ post.title }}</h6>
+                        </a>
+                        <p>{{ post.updated_at }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+                
+            </div>
+        </div>
+        
+        <div class="single-sidebar-widget ads-widget">
+            <a href="#"><img class="img-fluid" src="{% static 'img/blog/ads-banner.jpg' %}" alt=""></a>
+        </div>
+        
+        <div class="single-sidebar-widget post-category-widget">
+            <h4 class="category-title">Post Catgories</h4>
+            <ul class="cat-list">
+
+                {% for name, value in categories.items %}
+                <!-- value.0 is slug and value.1 is count of posts with this category -->
+                <li>
+                    <a href="{% url 'blog_app:blog-category' value.0 %}" class="d-flex justify-content-between">
+                        <p>{{ name }}</p>
+                        <p>{{ value.1 }}</p>
+                    </a>
+                </li>
+                {% endfor %}
+                
+            </ul>
+        </div>
+        <div class="single-sidebar-widget newsletter-widget">
+            <h4 class="newsletter-title">About Developer</h4>
+            <p>
+                Hi, I'm Farham and the backend developer of this blog site.
+                <br>
+                You can follow my outher works on my GitHub.
+            </p>
+            <div class="form-group d-flex flex-row justify-content-center">
+                <a href="https://github.com/FdevB" class="bbtns">GitHub (FarhamB.dev)</a>
+            </div>
+        </div>
+        <div class="single-sidebar-widget tag-cloud-widget">
+            <h4 class="tagcloud-title">Tag Clouds</h4>
+            <ul>
+
+                {% for tag in tags %}
+                <li><a href="#">{{ tag.name }}</a></li>
+                {% endfor %}
+
+            </ul>
+        </div>
+    </div>
+</div>
