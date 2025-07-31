@@ -88,7 +88,7 @@
             <ul>
 
                 {% for tag in tags %}
-                <li><a href="#">{{ tag.name }}</a></li>
+                <li><a href="{% url 'blog_app:blog-tag' tag.slug %}">{{ tag.name }}</a></li>
                 {% endfor %}
 
             </ul>

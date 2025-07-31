@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from blog_app.models import PostModel, CategoryModel, TagModel
 
 import random
+import re
 
 
 register = template.Library()
@@ -11,7 +12,7 @@ register = template.Library()
 @register.filter(name='get_random')
 def get_random_objects(sequence, count=1):
     """
-    Return a list of `count` random objects selected from the given sequence.
+    Return a list of 'count' random objects selected from the given sequence.
 
     Arguments:
         sequence (list): A sequence of any objects.
@@ -95,6 +96,73 @@ def sort_objects_by(sequence, field_with_limit):
 
 
     return sorted_objects
+
+
+@register.filter(name='mark_similar')
+def highlight_similar_parts(text, search_query):
+    """
+    Highlights parts of the given text that partially match words from the search query.
+
+    This filter is useful for visualizing which parts of a string match user input in a search bar,
+    especially when using partial or fuzzy search.
+
+    Arguments:
+        context (dict): Django template context containing a key named 'search', which holds a string of space-separated search terms.
+        text (str): The text string in which the search matches will be highlighted.
+
+    Variable:
+        search_query (str): The search query extracted from the context.
+        search_words (list[str]): The list of individual words from the 'search_query' string.
+        original_words (list[str]): The original input text split into words.
+        highlighted_text (list[str]): A mutable copy of 'original_words' used to apply changes.
+        term (str): A single word from the 'search_words' list, representing the current search term.
+        word (str): A single word from 'original_words', representing a word from the original text.
+        longest_match (str): The longest prefix of 'term' that matches the beginning of 'word'.
+        pattern (str): The incremental substring of 'term' used to find 'longest_match'.
+        found_object (Match): The match object returned by 're.search' containing the location of the match.
+        s, e (int): Start and end indices of the match inside 'word'.
+        txt (str): The actual matched text inside 'word'.
+        new_str (str): The new version of 'word' with the matched part wrapped in a span tag.
+
+    Returns:
+        str: A version of the input `text` where any substring partially matching words in the search query (minimum 3 characters) is wrapped in `<span class="highlight">...</span>` for visual emphasis.
+    """
+    
+    if not search_query:
+        return text
+    
+
+    search_words = search_query.split()
+    original_words = text.split()
+
+    highlighted_text = text.split()
+
+    for term in search_words:
+        for index, word in enumerate(original_words):
+            longest_match = ''
+
+            for i in range(1, len(term) + 1):
+                pattern = term[:i]
+
+                if re.search(pattern, word, flags=re.IGNORECASE):
+                    longest_match = pattern
+                
+                else:
+                    break
+            
+            if len(longest_match) > 2:
+                found_object = re.search(longest_match, word, flags=re.IGNORECASE)
+                s, e = found_object.span()
+                txt = found_object.group()
+
+                new_str = word[:s] + f'<span class="highlight">{txt}</span>' + word[e:]
+                
+                highlighted_text[index] = new_str
+
+
+    highlighted_text = ' '.join(highlighted_text)
+
+    return highlighted_text
 
 
 @register.inclusion_tag('blog_app/blog_sidebar.html', name='side_bar')

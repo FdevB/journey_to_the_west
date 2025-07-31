@@ -118,7 +118,7 @@ Blog
 							<img class="img-fluid" src="{{ post.banner.url }}" alt="">
 						</div>
 						<a class="posts-title" href="{% url 'blog_app:blog-detail' post.slug %}">
-							<h3>{{ post.title }}</h3>
+							<h3>{{ post.title|mark_similar:search|safe }}</h3>
 						</a>
 						<p class="excert">
 							{{ post.description|safe|truncatewords:50 }}
