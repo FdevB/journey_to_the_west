@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from blog_app.models import PostModel
 
 # Create your views here.
-def blog_view(request):
+def blog_view(request, **kwargs):
     """
     View for handling requests to the /blog/ endpoint for PostModel.
 
@@ -22,10 +22,25 @@ def blog_view(request):
     """
 
     posts = PostModel.objects.filter(status='published')
+    search = None
+
+    if category := kwargs.get('category_name'):
+        posts = posts.filter(categories__slug=category)
+    
+    elif tag := kwargs.get('tag_name'):
+        posts = posts.filter(tags__slug=tag)
+    
+    elif author := kwargs.get('author_name'):
+        posts = posts.filter(author__username=author)
+
+    elif search := request.GET.get('search', None):
+        posts = posts.filter(title__icontains=search)
+
 
     template_name = 'blog_app/blog.html'
     context = {
         'posts': posts,
+        'search': search
     }
     return render(request, template_name, context)
 
@@ -50,6 +65,7 @@ def blog_detail_view(request, slug):
     """
 
     post = get_object_or_404(PostModel, slug=slug)
+
 
     template_name = 'blog_app/blog_detail.html'
     context = {
