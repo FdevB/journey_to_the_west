@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.core.paginator import Paginator
 
 from blog_app.models import PostModel
 
@@ -37,10 +38,16 @@ def blog_view(request, **kwargs):
         posts = posts.filter(title__icontains=search)
 
 
+    paginator = Paginator(posts.order_by('-published_at'), 5)
+    page_number = request.GET.get('page', 1)
+    page_objects = paginator.get_page(page_number)
+
+
     template_name = 'blog_app/blog.html'
     context = {
-        'posts': posts,
-        'search': search
+        'all_post': posts,
+        'search': search,
+        'page_objects': page_objects,
     }
     return render(request, template_name, context)
 
