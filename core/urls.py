@@ -11,8 +11,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home_app.urls')),
     path('blog/', include('blog_app.urls')),
-    path('about-us/', include('about_app.urls')),
-    path('contact-us/', include('contact_app.urls')),
+    path('info/', include('info_app.urls')),
 
     # Library
     path('ckeditor/', include('django_ckeditor_5.urls'))

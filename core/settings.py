@@ -34,8 +34,7 @@ INSTALLED_APPS = [
     # HandMade APPS
     'home_app.apps.HomeAppConfig',
     'blog_app.apps.BlogAppConfig',
-    'about_app.apps.AboutAppConfig',
-    'contact_app.apps.ContactAppConfig',
+    'info_app.apps.InfoAppConfig',
 
     # Library
     'django_ckeditor_5',
