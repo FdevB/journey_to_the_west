@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'info_app.apps.InfoAppConfig',
 
     # Library
+    'django_extensions',
     'django_ckeditor_5',
 ]
 
