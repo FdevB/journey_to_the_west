@@ -10,7 +10,7 @@ def about_view(request):
 
     This view show the template.
 
-    Args:
+    Arguments:
         request (HttpRequest): Required arguments for views.
 
     Variables:
@@ -32,7 +32,7 @@ def contact_view(request):
     validates the input, and uses Django's messaging framework
     to display success or error messages.
 
-    Args:
+    Arguments:
         request (HttpRequest): Required arguments for views.
 
     Variables:

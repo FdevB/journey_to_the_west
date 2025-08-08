@@ -7,7 +7,7 @@ def home_view(request):
 
     This view show the template.
 
-    Args:
+    Arguments:
         request (HttpRequest): Required arguments for views.
 
     Variables:

@@ -1,5 +1,6 @@
 from django import template
 from django.contrib.auth.models import User
+from django.contrib.sites.shortcuts import get_current_site
 
 from blog_app.models import PostModel, CategoryModel, TagModel
 
@@ -166,7 +167,7 @@ def highlight_similar_parts(text, search_query):
 
 
 @register.inclusion_tag('blog_app/blog_sidebar.html', name='side_bar')
-def include_blog_sidebar():
+def include_blog_sidebar(request):
     """
     Return a dict to blog_app/blog_sidebar.html as context.
 
@@ -181,7 +182,12 @@ def include_blog_sidebar():
         data (dict): return a context as data name.
     """
 
+    site = get_current_site(request)
+
     posts = PostModel.objects.filter(status='published')
+    if site.domain == 'localhost:8000':
+        posts = PostModel.objects.filter(status='draft')
+
     users = User.objects.all()
     raw_categories = CategoryModel.objects.all()
     tags = TagModel.objects.all()

@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'info_app.apps.InfoAppConfig',
 
     # Libraries, Frameworks, ...
+    'django.contrib.sites',
     'django.contrib.humanize',
     'django_extensions',
     'django_ckeditor_5',

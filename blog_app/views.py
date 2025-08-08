@@ -10,12 +10,14 @@ def blog_view(request, **kwargs):
     View for handling requests to the /blog/ endpoint for PostModel.
 
     This view manages listing PostModel instances.
+    If the current site domain is localhost, the site will show the preview to the admin.
 
-    Args:
+    Arguments:
         request (HttpRequest): Required arguments for views.
 
     Variables:
-        posts (QuerySet[PostModel]): All posts retrieved from the database.
+        posts (QuerySet[PostModel]): All posts retrieved from the database or filtered based on needs.
+        site (Site): Contains current site information.
         template_name (str): Path to the template file.
         context (dict): Context data sent to the template.
     
@@ -23,17 +25,15 @@ def blog_view(request, **kwargs):
         HttpResponse: Rendered HTML response with context data.
     """
 
-    posts = PostModel.objects.filter(status='published')
+    posts = PostModel.objects.all()
     site = get_current_site(request)
-    search = None
 
-    if site.domain == '127.0.0.1:8000':
-        posts = posts.filter(site=site)
-        language = 'en'
 
-    elif site.domain == 'localhost:8000':
-        posts = posts.filter(site=site)
-        language = 'fa'
+    if site.domain == 'localhost:8000':
+        posts = posts.filter(status='draft')
+
+    else:
+        posts = posts.filter(status='published')
 
 
     if category := kwargs.get('category_name'):
@@ -57,7 +57,6 @@ def blog_view(request, **kwargs):
     template_name = 'blog_app/blog.html'
     context = {
         'all_post': posts,
-        'language': language,
         'search': search,
         'page_objects': page_objects,
     }
