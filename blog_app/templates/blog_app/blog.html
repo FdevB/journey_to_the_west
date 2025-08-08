@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% load humanize %}
+
 {% load blog_tags %}
 
 
@@ -108,7 +110,7 @@ Blog
 									class="lnr lnr-user"></span></p>
 							<p class="date col-lg-12 col-md-12 col-6"><a href="#">{{ post.updated_at }}</a> <span
 									class="lnr lnr-calendar-full"></span></p>
-							<p class="view col-lg-12 col-md-12 col-6"><a href="#">{{ post.views }} Views</a> <span
+							<p class="view col-lg-12 col-md-12 col-6"><a href="#">{{ post.views|intword }} Views</a> <span
 									class="lnr lnr-eye"></span></p>
 							<p class="comments col-lg-12 col-md-12 col-6"><a href="#">06 Comments</a> <span class="lnr lnr-bubble"></span></p>
 						</div>

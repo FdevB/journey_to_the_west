@@ -36,7 +36,8 @@ INSTALLED_APPS = [
     'blog_app.apps.BlogAppConfig',
     'info_app.apps.InfoAppConfig',
 
-    # Library
+    # Libraries, Frameworks, ...
+    'django.contrib.humanize',
     'django_extensions',
     'django_ckeditor_5',
 ]

@@ -1,5 +1,3 @@
-from django_ckeditor_5.fields import CKEditor5Field
-
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
@@ -7,6 +5,7 @@ from django.utils import timezone
 
 import bleach
 from bleach.css_sanitizer import CSSSanitizer
+from django_ckeditor_5.fields import CKEditor5Field
 
 from core import settings
 
@@ -118,6 +117,7 @@ class PostModel(models.Model):
 
     class Meta:
         verbose_name = 'Post'
+        ordering = ['-published_at']
 
     def __str__(self):
         return self.title

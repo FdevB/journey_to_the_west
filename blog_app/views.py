@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
+from django.contrib.sites.shortcuts import get_current_site
 
 from blog_app.models import PostModel
 
@@ -23,7 +24,17 @@ def blog_view(request, **kwargs):
     """
 
     posts = PostModel.objects.filter(status='published')
+    site = get_current_site(request)
     search = None
+
+    if site.domain == '127.0.0.1:8000':
+        posts = posts.filter(site=site)
+        language = 'en'
+
+    elif site.domain == 'localhost:8000':
+        posts = posts.filter(site=site)
+        language = 'fa'
+
 
     if category := kwargs.get('category_name'):
         posts = posts.filter(categories__slug=category)
@@ -38,7 +49,7 @@ def blog_view(request, **kwargs):
         posts = posts.filter(title__icontains=search)
 
 
-    paginator = Paginator(posts.order_by('-published_at'), 5)
+    paginator = Paginator(posts, 5)
     page_number = request.GET.get('page', 1)
     page_objects = paginator.get_page(page_number)
 
@@ -46,6 +57,7 @@ def blog_view(request, **kwargs):
     template_name = 'blog_app/blog.html'
     context = {
         'all_post': posts,
+        'language': language,
         'search': search,
         'page_objects': page_objects,
     }

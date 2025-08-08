@@ -1,5 +1,7 @@
 {% load static %}
 
+{% load humanize %}
+
 {% load blog_tags %}
 
 <div class="col-lg-4 sidebar-widgets">
@@ -44,7 +46,7 @@
                         <a href="{% url 'blog_app:blog-detail' post.slug %}">
                             <h6>{{ post.title }}</h6>
                         </a>
-                        <p>{{ post.updated_at }}</p>
+                        <p>{{ post.published_at|naturaltime }}</p>
                     </div>
                 </div>
                 {% endfor %}
