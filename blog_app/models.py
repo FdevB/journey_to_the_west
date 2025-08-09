@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 from django.utils import timezone
+from django.urls import reverse
 
 import bleach
 from bleach.css_sanitizer import CSSSanitizer
@@ -32,6 +33,16 @@ class CategoryModel(models.Model):
     def __str__(self):
         return self.name
     
+    def get_absolute_url(self):
+        """
+        Returns the absolute URL for the list view of this object.
+
+        The URL is resolved using Django's reverse function based on the
+        view name and the object's primary key or slug.
+        """
+        
+        return reverse('blog_app:blog-category', kwargs={'category_name': self.slug})
+    
     def save(self, *args, **kwargs):
         """
         Overrides the default save method to automatically set the slug field.
@@ -61,6 +72,16 @@ class TagModel(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def get_absolute_url(self):
+        """
+        Returns the absolute URL for the list view of this object.
+
+        The URL is resolved using Django's reverse function based on the
+        view name and the object's primary key or slug.
+        """
+        
+        return reverse('blog_app:blog-tag', kwargs={'tag_name': self.slug})
     
     def save(self, *args, **kwargs):
         """
@@ -121,6 +142,16 @@ class PostModel(models.Model):
 
     def __str__(self):
         return self.title
+    
+    def get_absolute_url(self):
+        """
+        Returns the absolute URL for the detail view of this object.
+
+        The URL is resolved using Django's reverse function based on the
+        view name and the object's primary key or slug.
+        """
+        
+        return reverse('blog_app:blog-detail', kwargs={'slug': self.slug})
     
     def save(self, *args, **kwargs):
         """

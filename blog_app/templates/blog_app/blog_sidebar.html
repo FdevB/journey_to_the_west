@@ -43,7 +43,7 @@
                         <img class="img-fluid" src="{{ post.banner.url }}" alt="banner" style="width: 100px; height: 60px; object-fit: cover;">
                     </div>
                     <div class="details">
-                        <a href="{% url 'blog_app:blog-detail' post.slug %}">
+                        <a href="{{ post.get_absolute_url }}">
                             <h6>{{ post.title }}</h6>
                         </a>
                         <p>{{ post.published_at|naturaltime }}</p>

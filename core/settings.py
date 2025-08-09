@@ -38,6 +38,7 @@ INSTALLED_APPS = [
 
     # Libraries, Frameworks, ...
     'django.contrib.sites',
+    'django.contrib.sitemaps',
     'django.contrib.humanize',
     'django_extensions',
     'django_ckeditor_5',

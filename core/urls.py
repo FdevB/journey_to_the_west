@@ -4,8 +4,22 @@ URL configuration for core project.
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
+from django.contrib.sitemaps.views import sitemap
 
 from core import settings
+from home_app.sitemaps import HomeSitemap
+from blog_app.sitemaps import BlogSitemap, PostSitemap, CategorySitemap, TagSitemap
+from info_app.sitemaps import InfoSitemap
+
+
+sitemaps = {
+    'home': HomeSitemap,
+    'blog': BlogSitemap,
+    'posts': PostSitemap,
+    'categories': CategorySitemap,
+    'tags': TagSitemap,
+    'informations': InfoSitemap,
+}
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -14,7 +28,10 @@ urlpatterns = [
     path('info/', include('info_app.urls')),
 
     # Library
-    path('ckeditor/', include('django_ckeditor_5.urls'))
+    path('ckeditor/', include('django_ckeditor_5.urls')),
+
+    # SiteMap
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap')
 ]
 
 if settings.DEBUG:
