@@ -31,7 +31,10 @@ urlpatterns = [
     path('ckeditor/', include('django_ckeditor_5.urls')),
 
     # SiteMap
-    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap')
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+
+    # Robots.txt
+    path('robots.txt', include('robots.urls'))
 ]
 
 if settings.DEBUG:

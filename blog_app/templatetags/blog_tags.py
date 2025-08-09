@@ -167,7 +167,7 @@ def highlight_similar_parts(text, search_query):
 
 
 @register.inclusion_tag('blog_app/blog_sidebar.html', name='side_bar')
-def include_blog_sidebar(request):
+def include_blog_sidebar():
     """
     Return a dict to blog_app/blog_sidebar.html as context.
 
@@ -182,12 +182,7 @@ def include_blog_sidebar(request):
         data (dict): return a context as data name.
     """
 
-    site = get_current_site(request)
-
     posts = PostModel.objects.filter(status='published')
-    if site.domain == 'localhost:8000':
-        posts = PostModel.objects.filter(status='draft')
-
     users = User.objects.all()
     raw_categories = CategoryModel.objects.all()
     tags = TagModel.objects.all()

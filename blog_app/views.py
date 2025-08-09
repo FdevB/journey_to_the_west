@@ -1,6 +1,5 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
-from django.contrib.sites.shortcuts import get_current_site
 
 from blog_app.models import PostModel
 
@@ -14,10 +13,10 @@ def blog_view(request, **kwargs):
 
     Arguments:
         request (HttpRequest): Required arguments for views.
+        kwargs (dict): Key, value for extra optional arguments.
 
     Variables:
         posts (QuerySet[PostModel]): All posts retrieved from the database or filtered based on needs.
-        site (Site): Contains current site information.
         template_name (str): Path to the template file.
         context (dict): Context data sent to the template.
     
@@ -25,15 +24,7 @@ def blog_view(request, **kwargs):
         HttpResponse: Rendered HTML response with context data.
     """
 
-    posts = PostModel.objects.all()
-    site = get_current_site(request)
-
-
-    if site.domain == 'localhost:8000':
-        posts = posts.filter(status='draft')
-
-    else:
-        posts = posts.filter(status='published')
+    posts = PostModel.objects.filter(status='published')
 
 
     if category := kwargs.get('category_name'):

@@ -39,9 +39,10 @@ INSTALLED_APPS = [
     # Libraries, Frameworks, ...
     'django.contrib.sites',
     'django.contrib.sitemaps',
+    'robots',
+    'django_ckeditor_5',
     'django.contrib.humanize',
     'django_extensions',
-    'django_ckeditor_5',
 ]
 
 MIDDLEWARE = [
@@ -129,6 +130,15 @@ MEDIA_ROOT = 'media_root'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+
+
+# SiteMap Configurations
+SITE_ID = 3
+
+
+# Rbots.txt Configurations
+ROBOTS_USE_HOST = False
+ROBOTS_CACHE_TIMEOUT = 60*60*24
 
 
 # CKEditor Configurations and Settings

@@ -80,6 +80,7 @@ class TagSitemap(Sitemap):
     Methods:
         items(): Returns all tags available in the blog.
     """
+    
     changefreq = 'monthly'
     priority = 0.7
 
