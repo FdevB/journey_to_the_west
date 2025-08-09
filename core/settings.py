@@ -38,11 +38,12 @@ INSTALLED_APPS = [
 
     # Libraries, Frameworks, ...
     'django.contrib.sites',
+    'django_ckeditor_5',
+    'django_extensions',
+    'debug_toolbar',
     'django.contrib.sitemaps',
     'robots',
-    'django_ckeditor_5',
     'django.contrib.humanize',
-    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -53,6 +54,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # Custom MIDDLEWARE
+    'debug_toolbar.middleware.DebugToolbarMiddleware'
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -139,6 +143,12 @@ SITE_ID = 3
 # Rbots.txt Configurations
 ROBOTS_USE_HOST = False
 ROBOTS_CACHE_TIMEOUT = 60*60*24
+
+
+# Django Debug Toolbar Configurations
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
 
 
 # CKEditor Configurations and Settings

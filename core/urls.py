@@ -6,6 +6,8 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.contrib.sitemaps.views import sitemap
 
+from debug_toolbar.toolbar import debug_toolbar_urls
+
 from core import settings
 from home_app.sitemaps import HomeSitemap
 from blog_app.sitemaps import BlogSitemap, PostSitemap, CategorySitemap, TagSitemap
@@ -35,8 +37,9 @@ urlpatterns = [
 
     # Robots.txt
     path('robots.txt', include('robots.urls'))
-]
+] 
 
 if settings.DEBUG:
+    urlpatterns += debug_toolbar_urls()
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
