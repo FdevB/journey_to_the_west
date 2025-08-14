@@ -5,8 +5,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-6 col-sm-6 col-6 header-top-left">
                     <ul>
-                        <li><a href="#">Visit Us</a></li>
-                        <li><a href="#">Buy Tickets</a></li>
+                        <li><a href="https://github.com/FdevB">Developed By <span style="color: #ffe499;">FarhamB.dev</span></a></li>
                     </ul>
                 </div>
                 <div class="col-lg-6 col-sm-6 col-6 header-top-right">
@@ -28,20 +27,10 @@
             <nav id="nav-menu-container">
                 <ul class="nav-menu">
                     <li><a href="{% url 'home_app:home' %}">Home</a></li>
-                    <li><a href="{% url 'info_app:about-us' %}">About</a></li>
                     <li><a href="{% url 'blog_app:blog' %}">Blog</a></li>
-                    <li class="menu-has-children"><a href="">Pages</a>
-                        <ul>
-                            <li><a href="elements.html">Elements</a></li>
-                            <li class="menu-has-children"><a href="">Level 2 </a>
-                                <ul>
-                                    <li><a href="#">Item One</a></li>
-                                    <li><a href="#">Item Two</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
+                    <li><a href="{% url 'info_app:about-us' %}">About</a></li>
                     <li><a href="{% url 'info_app:contact-us' %}">Contact</a></li>
+                    <li class="auth-btn"><a href="{% url 'info_app:contact-us' %}">Log in</a></li>
                 </ul>
             </nav><!-- #nav-menu-container -->
         </div>

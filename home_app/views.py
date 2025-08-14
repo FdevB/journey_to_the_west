@@ -1,5 +1,7 @@
 from django.shortcuts import render
 
+from blog_app.models import PostModel
+
 # Create your views here.
 def home_view(request):
     """
@@ -17,5 +19,7 @@ def home_view(request):
         HttpResponse: Rendered HTML response with context data.
     """
 
+    a = PostModel.objects.filter(pk=4)
+
     template_name = 'home_app/index.html'
-    return render(request, template_name)
+    return render(request, template_name, {'a': a})

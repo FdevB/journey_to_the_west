@@ -36,7 +36,7 @@ def blog_view(request, **kwargs):
     elif author := kwargs.get('author_name'):
         posts = posts.filter(author__username=author)
 
-    elif search := request.GET.get('search', None):
+    elif search := request.GET.get('search'):
         posts = posts.filter(title__icontains=search)
 
 

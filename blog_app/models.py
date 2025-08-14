@@ -22,9 +22,9 @@ class CategoryModel(models.Model):
         slug (SlugField): A link derived from the name (non-editable).
     """
 
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, unique=True)
 
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField()
 
     class Meta:
         verbose_name = 'Category'
@@ -63,9 +63,9 @@ class TagModel(models.Model):
         slug (SlugField): A link derived from the name (non-editable).
     """
 
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, unique=True)
 
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField()
 
     class Meta:
         verbose_name = 'Tag'
@@ -171,13 +171,13 @@ class PostModel(models.Model):
             self.status = 'draft'
 
 
-        self.description = bleach.clean(
-            self.description,
-            settings.BLEACH_ALLOWED_TAGS,
-            settings.BLEACH_ALLOWED_ATTRS,
-            strip = settings.BLEACH_STRIP_TAGS,
-            strip_comments = settings.BLEACH_STRIP_COMMENTS,
-            css_sanitizer = CSSSanitizer(settings.BLEACH_ALLOWES_STYLES),
-        )
+        # self.description = bleach.clean(
+        #     self.description,
+        #     settings.BLEACH_ALLOWED_TAGS,
+        #     settings.BLEACH_ALLOWED_ATTRS,
+        #     strip = settings.BLEACH_STRIP_TAGS,
+        #     strip_comments = settings.BLEACH_STRIP_COMMENTS,
+        #     css_sanitizer = CSSSanitizer(settings.BLEACH_ALLOWES_STYLES),
+        # )
 
         super().save(*args, **kwargs)

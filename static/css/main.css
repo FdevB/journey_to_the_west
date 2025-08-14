@@ -115,6 +115,12 @@ figure {
   margin: 0;
 }
 
+
+figure img {
+  width: 100%;
+  height: auto;
+}
+
 a {
   -webkit-transition: all 0.3s ease 0s;
   -moz-transition: all 0.3s ease 0s;
@@ -2189,6 +2195,7 @@ h6 {
 .nav-menu li {
   position: relative;
   white-space: nowrap;
+  padding: 5px 5px;
 }
 
 .nav-menu>li {
@@ -2251,7 +2258,7 @@ h6 {
 }
 
 .nav-menu>li {
-  margin-left: 10px;
+  margin-left: 5px;
 }
 
 .nav-menu ul {
@@ -3504,7 +3511,7 @@ body.mobile-nav-active #mobile-nav-toggle {
   margin: 20px 0px;
 }
 
-.post-content-area .single-post .excert {
+.post-content-area .single-post {
   margin-bottom: 20px;
 }
 
@@ -4610,4 +4617,15 @@ body.mobile-nav-active #mobile-nav-toggle {
   border-color: green;
   box-shadow: 0 0 20px rgba(0, 128, 0, 0.5);
   animation: show_msg 5s forwards;
+}
+
+.auth-btn {
+  background-color: #f8b600;
+  margin-left: 35px !important;
+  border-radius: 2.5px;
+  transition: .5s;
+}
+
+.auth-btn:hover {
+  background-color: #fff;
 }

@@ -249,17 +249,17 @@ CKEDITOR_5_CONFIGS  = {
 }
 
 # bleach Configurations and Settings
-BLEACH_ALLOWED_TAGS = [
-    'p', 'b', 'i', 'u', 'em', 'strong', 'a', 'ul', 'ol', 'li', 'br', 'img', 'blockquote',
-    'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-]
-BLEACH_ALLOWED_ATTRS = {
-    '*': ['class', 'style'],
-    'a': ['href', 'title', 'target'],
-    'img': ['src', 'alt', 'width', 'height'],
-}
-BLEACH_ALLOWES_STYLES = [
-    'color', 'font-weight', 'text-decoration', 'font-style'
-]
-BLEACH_STRIP_TAGS = False
-BLEACH_STRIP_COMMENTS = False
+# BLEACH_ALLOWED_TAGS = [
+#     'p', 'b', 'i', 'u', 'em', 'strong', 'a', 'ul', 'ol', 'li', 'br', 'img', 'blockquote',
+#     'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+# ]
+# BLEACH_ALLOWED_ATTRS = {
+#     '*': ['class', 'style'],
+#     'a': ['href', 'title', 'target'],
+#     'img': ['src', 'alt', 'width', 'height'],
+# }
+# BLEACH_ALLOWES_STYLES = [
+#     'color', 'font-weight', 'text-decoration', 'font-style'
+# ]
+# BLEACH_STRIP_TAGS = False
+# BLEACH_STRIP_COMMENTS = False

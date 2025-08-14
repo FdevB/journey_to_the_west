@@ -1,6 +1,5 @@
 from django import template
 from django.contrib.auth.models import User
-from django.contrib.sites.shortcuts import get_current_site
 
 from blog_app.models import PostModel, CategoryModel, TagModel
 
@@ -23,9 +22,6 @@ def get_random_objects(sequence, count=1):
         random_objects (list): List of random object from sequence.
     """
 
-    if not sequence:
-        sequence = []
-
     sequence = list(sequence)
     count = min(count, len(sequence))
     random_objects = random.sample(sequence, k=count)
@@ -34,14 +30,16 @@ def get_random_objects(sequence, count=1):
 
 
 @register.simple_tag(name='get_same')
-def get_same_objects(sequence, related_name, kind='c'):
+def get_same_objects(sequence, related_name, kind):
     """
     Return a list of objects that share at least one category with the items in the sequence,
     but are not themselves in the sequence.
 
     Arguments:
+        sample_object (object): The first object from the sequence.
+        field (field): Get field from sample_object with kind.
         kind (str): Select subscription type.
-        sequence (list): A sequence of any objects.
+        sequence (queryset): A sequence of any objects.
         related_name (str): A related_name for reverse relation.
 
     Variable:
@@ -51,21 +49,22 @@ def get_same_objects(sequence, related_name, kind='c'):
         same_object (list): List of objects that are similar in category from sequence.
     """
 
-    types = {
-        't': 'tags',
-        'u': 'author',
-        'c': 'categories',
-    }
+    sample_object = sequence[0]
+    field = sample_object._meta.get_field(kind)
 
+    if not field.is_relation:
+        return []
+
+    sequence = sequence.prefetch_related(field.name)
     same_object = set()
-    if (kind == 't') or (kind == 'c'):
+    if field.many_to_many:
         for item in sequence:
-            for common_ground in getattr(item,  types[kind]).all():
+            for common_ground in getattr(item,  field.name).all():
                 same_object.update(getattr(common_ground, related_name).all())
 
-    else:
+    elif field.many_to_one:
         for item in sequence:
-            user = item.author
+            user = getattr(item, field.name)
             same_object.update(getattr(user, related_name).all())
 
     same_object = list(same_object - set(sequence))
