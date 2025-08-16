@@ -49,6 +49,9 @@ def get_same_objects(sequence, related_name, kind):
         same_object (list): List of objects that are similar in category from sequence.
     """
 
+    if not sequence:
+        return []
+
     sample_object = sequence[0]
     field = sample_object._meta.get_field(kind)
 

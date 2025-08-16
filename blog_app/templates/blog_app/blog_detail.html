@@ -29,6 +29,51 @@ Blog Detail
 </section>
 <!-- End banner Area -->
 
+<!-- Start top-category-widget Area -->
+<section class="top-category-widget-area pt-90 pb-90">
+	{% with request.GET.similar_in as type %}
+	<div class="container">
+		<h1 class="text-center mb-5">See similar posts here.</h1>
+		<div class="all_type d-flex justify-content-center mb-3">
+			<a href="?similar_in=author" class="btn btn-warning text-white mr-3" id="btn-author">Authors</a>
+			<a href="?similar_in=categories" class="btn btn-warning text-white mr-3" id="btn-category">Categories</a>
+			<a href="?similar_in=tags" class="btn btn-warning text-white" id="btn-tag">Tags</a>
+		</div>
+		<hr>
+		<div class="row">
+			{% if type %}
+				{% get_same related_post 'post' type as same_post %}
+			{% else %}
+				{% get_same related_post 'post' 'author' as same_post %}
+			{% endif %}
+			
+			{% for post in same_post|get_random:3 %}
+			<div class="col-lg-4">
+				<div class="single-cat-widget">
+					<div class="content relative">
+						<div class="overlay overlay-bg"></div>
+						<a href="{{ post.get_absolute_url }}" target="_blank">
+							<div class="thumb">
+								<img class="content-image img-fluid d-block mx-auto"
+									src="{{ post.banner.url }}" alt="" style="width: 350px; height: 214px; object-fit: cover;">
+							</div>
+							<div class="content-details">
+								<h4 class="content-title mx-auto text-uppercase">{{ post.title|truncatechars:15 }}</h4>
+								<span></span>
+								<!-- <p>Similar in {{ type }}</p> -->
+								<p>{{ post.published_at }}</p>
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+	{% endwith %}
+</section>
+<!-- End top-category-widget Area -->
+
 <!-- Start post-content Area -->
 <section class="post-content-area single-post-area">
 	<div class="container">

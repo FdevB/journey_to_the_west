@@ -25,6 +25,7 @@ def blog_view(request, **kwargs):
     """
 
     posts = PostModel.objects.filter(status='published')
+    search = None
 
 
     if category := kwargs.get('category_name'):
@@ -78,6 +79,7 @@ def blog_detail_view(request, slug):
 
     template_name = 'blog_app/blog_detail.html'
     context = {
-        'post': post
+        'post': post,
+        'related_post': PostModel.objects.filter(id=post.id),
     }
     return render(request, template_name, context)

@@ -9,6 +9,7 @@
         <div class="single-sidebar-widget search-widget">
             <form class="search-form" action="{% url 'blog_app:blog' %}">
                 <input placeholder="Search Posts" name="search" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Posts'">
+                <input type="hidden" name="similar_in" value="author">
                 <button type="submit"><i class="fa fa-search"></i></button>
             </form>
         </div>
