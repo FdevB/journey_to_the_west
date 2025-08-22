@@ -19,7 +19,5 @@ def home_view(request):
         HttpResponse: Rendered HTML response with context data.
     """
 
-    a = PostModel.objects.filter(pk=4)
-
     template_name = 'home_app/index.html'
-    return render(request, template_name, {'a': a})
+    return render(request, template_name)

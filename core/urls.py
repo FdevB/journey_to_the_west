@@ -28,6 +28,7 @@ urlpatterns = [
     path('', include('home_app.urls')),
     path('blog/', include('blog_app.urls')),
     path('info/', include('info_app.urls')),
+    path('accounts/', include('accounts_app.urls')),
 
     # Library
     path('ckeditor/', include('django_ckeditor_5.urls')),

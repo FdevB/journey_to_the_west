@@ -26,13 +26,7 @@ Contact Us
 <!-- End banner Area -->
 
 <!-- Start message box here -->
-{% if messages%}
-	{% for message in messages %}
-	<div class="message-box {{ message.tags }}">
-		<h5>{{ message }}</h5>
-	</div>
-	{% endfor %}
-{% endif %}
+{% include 'include/error-messages.html' %}
 <!-- End message box here -->
 
 <!-- Start contact-page Area -->

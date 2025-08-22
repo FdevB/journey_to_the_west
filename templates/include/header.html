@@ -22,7 +22,7 @@
     <div class="container main-menu">
         <div class="row align-items-center justify-content-between d-flex">
             <div id="logo">
-                <a href="{% url 'home_app:home' %}"><img src="{% static 'img/logo.png' %}" alt="" title="" /></a>
+                <a href="{% url 'home_app:home' %}"><img src="{% static 'img/logo.png' %}" alt="" title=""/></a>
             </div>
             <nav id="nav-menu-container">
                 <ul class="nav-menu">
@@ -30,7 +30,20 @@
                     <li><a href="{% url 'blog_app:blog' %}">Blog</a></li>
                     <li><a href="{% url 'info_app:about-us' %}">About</a></li>
                     <li><a href="{% url 'info_app:contact-us' %}">Contact</a></li>
-                    <li class="auth-btn"><a href="{% url 'info_app:contact-us' %}">Log in</a></li>
+                    {% if request.user.is_authenticated %}
+                    <li class="user_avatar_cell">
+                        <div class="photo_dropdown">
+                            <a href=""><img class="user_avatar" src="{% static 'img/b1.jpg' %}" alt=""></a>
+                            <ul class="photo_dropdown_content">
+                                <li><h6><span style="color: #9a9a9a; margin-right: 8px;">Hey</span>{{ user.username }}</h6></li>
+                                <li class="divider2"></li>
+                                <li><a href="{% url 'accounts_app:log-out' %}">Log out</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    {% else %}
+                    <li class="auth-btn"><a href="{% url 'accounts_app:log-in' %}">Log in</a></li>
+                    {% endif %}
                 </ul>
             </nav><!-- #nav-menu-container -->
         </div>
