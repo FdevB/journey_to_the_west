@@ -1,5 +1,7 @@
+from django.db.models.expressions import result
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
 
 from blog_app.models import PostModel
 
@@ -27,18 +29,22 @@ def blog_view(request, **kwargs):
     posts = PostModel.objects.filter(status='published')
     search = None
 
-
+    result = "Read about this journy here"
     if category := kwargs.get('category_name'):
         posts = posts.filter(categories__slug=category)
+        result = f"result for {category} category"
     
     elif tag := kwargs.get('tag_name'):
         posts = posts.filter(tags__slug=tag)
+        result = f"result for {tag} tag"
     
     elif author := kwargs.get('author_name'):
         posts = posts.filter(author__username=author)
+        result = f"result for {author} author"
 
     elif search := request.GET.get('search'):
         posts = posts.filter(title__icontains=search)
+        result = f"result for {search} search"
 
 
     paginator = Paginator(posts, 5)
@@ -49,17 +55,19 @@ def blog_view(request, **kwargs):
     template_name = 'blog_app/blog.html'
     context = {
         'all_post': posts,
+        'result': result,
         'search': search,
         'page_objects': page_objects,
     }
     return render(request, template_name, context)
 
-
+@login_required()
 def blog_detail_view(request, slug):
     """
     View for handling requests to the /blog/detail/<slug> endpoint for PostModel.
 
     This view show the given object from PostModel.
+    And it adds one to the number of `views` to this site.
 
     Args:
         request (HttpRequest): Required arguments for views.
@@ -75,6 +83,8 @@ def blog_detail_view(request, slug):
     """
 
     post = get_object_or_404(PostModel, slug=slug)
+    post.views += 1
+    post.save()
 
 
     template_name = 'blog_app/blog_detail.html'
