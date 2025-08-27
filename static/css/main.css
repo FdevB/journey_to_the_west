@@ -4642,3 +4642,38 @@ body.mobile-nav-active #mobile-nav-toggle {
   overflow: hidden;
   border-top: 1px solid #9a9a9a;
 }
+
+#avatar {
+  width: 350px;
+  height: 350px;
+  border-radius: 50%;
+  margin: 2rem 0;
+}
+
+.glass {
+  background: rgba(167, 167, 167, 0);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4.6px);
+  -webkit-backdrop-filter: blur(4.6px);
+  border: 1px solid rgba(167, 167, 167, 0.27);
+}
+
+.user_detail {
+  margin-top: 10vh;
+  margin-bottom: 10vh;
+  text-align: center;
+}
+
+.user_detail h6{
+  font-size: larger;
+  font-weight: bold;
+  color: #818182;
+}
+
+.user_detail p{
+  margin-top: 10px;
+  margin-bottom: 35px;
+  color: black;
+  font-size: x-large;
+}

@@ -16,20 +16,12 @@
 
         {% for user in users|get_random %}
         <div class="single-sidebar-widget user-info-widget">
-            <img src="{{ user.avatar.url }}" alt="avatar">
-            <a href="#">
+            <img src="{{ user.profile.avatar.url }}" alt="avatar" class="user_avatar" style="width: 120px; height: 120px">
+            <a href="{{ user.profile.get_absolute_url }}">
                 <h4>{{ user.username }}</h4>
             </a>
             <p>
-                {{ user.career }}
-            </p>
-            <ul class="social-links">
-                {% for social in user.social %}
-                <li><a href="#"><i class="fa fa-{{ social.name }}"></i></a></li>
-                {% endfor %}
-            </ul>
-            <p>
-                {{ user.bio }}
+                {{ user.information }}
             </p>
         </div>
         {% endfor %}

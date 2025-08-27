@@ -41,12 +41,13 @@ INSTALLED_APPS = [
 
     # Libraries, Frameworks, ...
     'django.contrib.sites',
+    'django.contrib.sitemaps',
+    'django.contrib.humanize',
     'django_ckeditor_5',
     'django_extensions',
     'debug_toolbar',
-    'django.contrib.sitemaps',
     'robots',
-    'django.contrib.humanize',
+    'phonenumber_field',
 ]
 
 MIDDLEWARE = [

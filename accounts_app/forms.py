@@ -6,12 +6,7 @@ from django.contrib.auth.models import User
 class SignupForm(UserCreationForm):
     """
     SignupForm extends Django's built-in UserCreationForm to include an email field.
-
-    Attributes:
-        email (EmailField): The email address of the new user.
     """
-
-    email = forms.EmailField()
 
     class Meta:
         model = User
@@ -36,3 +31,7 @@ class SignupForm(UserCreationForm):
             user.save()
 
         return user
+
+
+# class ChangeUserDetailForm(forms.Form):
+#     username =

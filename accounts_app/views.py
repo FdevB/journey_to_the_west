@@ -1,13 +1,9 @@
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.views import PasswordResetView
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.core.mail import send_mail
-
-import random
 
 from accounts_app.forms import SignupForm
 from accounts_app.decorators import logout_required
@@ -112,3 +108,16 @@ def logout_view(request):
 
     logout(request)
     return redirect('home_app:home')
+
+@login_required
+def profile_view(request, username):
+    user = get_object_or_404(User, username=username)
+
+    # if request.user == user:
+    #     form =
+
+    template_name = 'accounts_app/profile.html'
+    context = {
+        'target_user': user
+    }
+    return render(request, template_name, context)
