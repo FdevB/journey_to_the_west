@@ -5,8 +5,9 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
-from accounts_app.forms import SignupForm
+from accounts_app.forms import GradeForm, SignupForm
 from accounts_app.decorators import logout_required
+
 
 # Create your views here.
 @logout_required
@@ -111,13 +112,23 @@ def logout_view(request):
 
 @login_required
 def profile_view(request, username):
-    user = get_object_or_404(User, username=username)
+    target_user = get_object_or_404(User, username=username)
+    scoring_form = None
 
-    # if request.user == user:
-    #     form =
+    if not target_user.profile.my_grades.filter(grader=request.user):
+        scoring_form = GradeForm()
+        if request.method == 'POST':
+            scoring_form = GradeForm(request.POST)
+            if scoring_form.is_valid():
+                grade = scoring_form.save(commit=False)
+                grade.grader = request.user
+                grade.target_profile = target_user.profile
+                grade.save()
+                return redirect('accounts_app:profile', username=username)
 
     template_name = 'accounts_app/profile.html'
     context = {
-        'target_user': user
+        'target_user': target_user,
+        'form': scoring_form,
     }
     return render(request, template_name, context)

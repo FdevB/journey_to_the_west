@@ -18,14 +18,35 @@
                     <img src="{{ target_user.profile.avatar.url }}" alt="Avatar" id="avatar">
                     <h1 class="text-white mb-2">{{ target_user.username }}</h1>
                     <p class="text-white">
-                        {{ target_user.profile.information }}
+                        {{ target_user.profile.information|or_default:'-' }}
                     </p>
                 </div>
             </div>
         </div>
     </section>
     <!-- End banner Area -->
+
+    <!-- Start message box here -->
+    {% include 'include/error-messages.html' %}
+    <!-- End message box here -->
+
     <div class="container user_detail">
+        {% if form %}
+        <div class="mb-30 bg-warning p-3 rounded-circle" style="display: grid; justify-items: center; box-shadow: 0 0 10px rgba(0,0,0,0.2)">
+            <h2 class="text-center mb-4">Give me a score</h2>
+            <form method="post">
+                {% csrf_token %}
+
+                {{ form.score }}
+
+                <button type="submit" class="d-block">Submit</button>
+            </form>
+        </div>
+        {% endif %}
+
+        <h6>Grade:</h6>
+        <p style="font-size: xxx-large; font-weight: bold; margin-top: 20px">{{ target_user.profile.average_score }} <span style="font-size: large; color: #cccccc">/ 5</span></p>
+
         <h6>Full Name:</h6>
         <p>{{ target_user.get_full_name|or_default:'-' }}</p>
 

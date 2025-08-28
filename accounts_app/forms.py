@@ -2,6 +2,15 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 
+from accounts_app.models import GradeModel
+
+
+class GradeForm(forms.ModelForm):
+
+    class Meta:
+        model = GradeModel
+        fields = ['score']
+
 
 class SignupForm(UserCreationForm):
     """

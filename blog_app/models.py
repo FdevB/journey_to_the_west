@@ -26,6 +26,7 @@ class CategoryModel(models.Model):
 
     slug = models.SlugField()
 
+
     class Meta:
         verbose_name = 'Category'
         verbose_name_plural = 'Categories'
@@ -66,6 +67,7 @@ class TagModel(models.Model):
     name = models.CharField(max_length=50, unique=True)
 
     slug = models.SlugField()
+
 
     class Meta:
         verbose_name = 'Tag'
@@ -135,6 +137,7 @@ class PostModel(models.Model):
     published_at = models.DateTimeField(blank=True, null=True)
 
     slug = models.SlugField(unique=True)
+
 
     class Meta:
         verbose_name = 'Post'
