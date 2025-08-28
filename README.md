@@ -1,26 +1,90 @@
-# 🐉 Journey to the West
+# 🌏🐉 Journey to the West  
 
-A simple **blog website** built with **Django 5.2**.
+[![Python](https://img.shields.io/badge/python-3.13.2-blue?logo=python&logoColor=white)](https://www.python.org/) 
+[![Django](https://img.shields.io/badge/django-5.2-green?logo=django&logoColor=white)](https://www.djangoproject.com/) 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) 
+
+**Journey to the West** is a Django-based blog platform that comes with authentication, custom profiles, rating system, and extended blog features.  
+This is my first official Django project published on GitHub and it is still under active development.  
 
 ---
 
-## 🚀 How to Use
+## ✨ Features  
 
-Clone the repository, create a virtual environment, install requirements, set up the database, and run the server:
+### ✅ Implemented
+- **Blog System**
+  - Blog list & detail pages  
+  - Similar posts suggestion (via custom template tags)  
+- **Authentication**
+  - User registration & login system  
+  - Automatic profile creation using Django signals  
+- **Profiles & Interaction**
+  - Custom profile page for each user  
+  - User rating system  
+- **Utilities**
+  - About Us & Contact Us pages  
+  - Custom template tags for advanced template logic  
 
-```bash
-git clone <repo-link>
-cd journey_to_the_west
+### 🔧 Upcoming
+- **Role Management**
+  - Two roles: **Writer** & **Reader**  
+  - Writers can create and manage posts  
+- **Post Submission**
+  - Writers can submit draft posts for review  
+- **Commenting System**
+  - Threaded comment support on blog posts  
+- **Security**
+  - Using **Bleach** to sanitize post content before saving  
+- **SEO / Robots**
+  - Dynamic `robots.txt` and sitemap integration  
 
-python -m venv venv
-source venv/bin/activate   # On Windows: venv\Scripts\activate
+---
 
-pip install -r requirements.txt
+## 🛠 Tech Stack
+- **Backend:** Django (Python)  
+- **Database:** SQLite (development)  
+- **Frontend:** Django Template Language (DTL), HTML5, CSS3  
+- **Other Tools:** Django Signals, Custom Template Tags, Bleach  
 
-# Update database settings in settings.py if needed
-# Change SECRET_KEY in settings.py to your own secure key
+---
 
-python manage.py migrate
-python manage.py createsuperuser   # optional, for admin access
+## 📦 Installation  
 
-python manage.py runserver
+    git clone https://github.com/your-username/journey_to_the_west.git
+    cd journey_to_the_west
+
+    python -m venv venv
+    source venv/bin/activate   # On Linux/Mac
+    venv\Scripts\activate      # On Windows
+
+    pip install -r requirements.txt
+    python manage.py migrate
+    python manage.py createsuperuser
+    python manage.py runserver
+
+---
+
+## 👤 Usage  
+- Visit `http://127.0.0.1:8000/blog/` for blog pages  
+- Register as a new user or log in  
+- View and edit your profile  
+- Rate other users  
+- Explore custom features like similar posts  
+
+---
+
+## 📌 Roadmap  
+- [ ] Writers can submit posts  
+- [ ] Commenting system  
+- [ ] Post sanitization with Bleach  
+- [ ] Robots.txt & sitemap integration  
+
+---
+
+## 🤝 Contributing  
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.  
+
+---
+
+## 📜 License  
+This project is licensed under the MIT License.  
