@@ -4,7 +4,7 @@
 [![Django](https://img.shields.io/badge/django-5.2-green?logo=django&logoColor=white)](https://www.djangoproject.com/) 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) 
 
-**Journey to the West** is a Django-based blog platform that comes with authentication, custom profiles, rating system, and extended blog features.  
+**Journey to the West** is a Django-based blog platform that comes with authentication, custom profiles, rating system, related objects, and extended blog features.  
 This is my first official Django project published on GitHub and it is still under active development.  
 
 ---
@@ -15,28 +15,32 @@ This is my first official Django project published on GitHub and it is still und
 - **Blog System**
   - Blog list & detail pages  
   - Similar posts suggestion (via custom template tags)  
+  - Highlight searched section
 - **Authentication**
   - User registration & login system  
   - Automatic profile creation using Django signals  
 - **Profiles & Interaction**
-  - Custom profile page for each user  
+  - Custom profile page for each user
+  - Editing profile system
   - User rating system  
 - **Utilities**
   - About Us & Contact Us pages  
   - Custom template tags for advanced template logic  
+- **SEO / Robots**
+  - Dynamic `robots.txt` and `sitemap.xml` integration  
 
 ### 🔧 Upcoming
 - **Role Management**
-  - Two roles: **Writer** & **Reader**  
-  - Writers can create and manage posts  
+  - Three roles: **Writer**, **Critic**, & **Reader**  
+  - Writers can create and manage posts
+  - Critics can send comments
+  - Reader can view the site
 - **Post Submission**
   - Writers can submit draft posts for review  
 - **Commenting System**
   - Threaded comment support on blog posts  
 - **Security**
-  - Using **Bleach** to sanitize post content before saving  
-- **SEO / Robots**
-  - Dynamic `robots.txt` and sitemap integration  
+  - Using **Bleach** to sanitize post content before saving
 
 ---
 
@@ -74,7 +78,8 @@ This is my first official Django project published on GitHub and it is still und
 ---
 
 ## 📌 Roadmap  
-- [ ] Writers can submit posts  
+- [ ] Writers can submit posts 
+- [ ] Display related objects
 - [ ] Commenting system  
 - [ ] Post sanitization with Bleach  
 - [ ] Robots.txt & sitemap integration  
