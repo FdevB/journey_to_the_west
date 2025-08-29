@@ -38,6 +38,7 @@
                                 <li><h6><span style="color: #9a9a9a; margin-right: 8px;">Hey</span>{{ user.username }}</h6></li>
                                 <li class="divider2"></li>
                                 <li><a href="{{ user.profile.get_absolute_url }}">Dashboard</a></li>
+                                <li><a href="{% url 'accounts_app:profile-edit' user.username %}">Edit Profile</a></li>
                                 <li><a href="{% url 'accounts_app:log-out' %}">Log out</a></li>
                             </ul>
                         </div>

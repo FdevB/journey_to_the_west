@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load accounts_tags %}
+
+{% block title %}
+	Edit {{ target_user.username }}'s Profile
+{% endblock %}
+
+{% block content %}
+	<!-- start banner Area -->
+    <section class="about-banner relative">
+        <div class="overlay overlay-bg"></div>
+        <div class="container">
+            <div class="row d-flex align-items-center justify-content-center">
+                <div class="about-content col-lg-12 glass mb-3">
+                    <img src="{{ target_user.profile.avatar.url }}" alt="Avatar" id="avatar">
+                    <h1 class="text-white mb-2">{{ target_user.username }}</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End banner Area -->
+
+    <!-- Start message box here -->
+    {% include 'include/error-messages.html' %}
+    <!-- End message box here -->
+
+    <div class="container user_detail">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <h6>Avatar:</h6>
+            <input type="file" name="avatar">
+
+            <h6>First Name:</h6>
+            {{ user_form.first_name }}
+
+            <h6>Last Name:</h6>
+            {{ user_form.last_name }}
+
+            <h6>Email:</h6>
+            <p>{{ user_form.email }}</p>
+
+            <h6>Phone:</h6>
+            {{ profile_form.phone }}
+
+            <h6>Website:</h6>
+            {{ profile_form.website }}
+
+            <h6>Github:</h6>
+            {{ profile_form.github }}
+
+            <h6>Information:</h6>
+            {{ profile_form.information }}
+
+            <h6>Birth Day:</h6>
+            {{ profile_form.birth_day }}
+
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="genric-btn primary d-block" style="width: 35%; font-size: medium">Change</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

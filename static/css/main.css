@@ -4671,7 +4671,7 @@ body.mobile-nav-active #mobile-nav-toggle {
   color: #818182;
 }
 
-.user_detail p{
+.user_detail p, input {
   margin-top: 10px;
   margin-bottom: 35px;
   color: black;

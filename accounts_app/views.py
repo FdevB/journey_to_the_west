@@ -5,7 +5,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
-from accounts_app.forms import GradeForm, SignupForm
+from accounts_app.forms import GradeForm, SignupForm, ChangeUserDetailForm, ChangeUserProfileForm
 from accounts_app.decorators import logout_required
 
 
@@ -130,5 +130,32 @@ def profile_view(request, username):
     context = {
         'target_user': target_user,
         'form': scoring_form,
+    }
+    return render(request, template_name, context)
+
+@login_required
+def edit_profile_view(request, username):
+    target_user = get_object_or_404(User, username=username)
+
+    user_form = ChangeUserDetailForm(instance=target_user)
+    profile_form = ChangeUserProfileForm(instance=target_user.profile)
+    if request.method == 'POST':
+        user_form = ChangeUserDetailForm(request.POST, instance=target_user)
+        profile_form = ChangeUserProfileForm(request.POST, files=request.FILES, instance=target_user.profile)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save(commit=False)
+            profile_form.user = target_user
+            profile_form.save()
+
+            messages.success(request, "Your profile Changed successfully.")
+            return redirect('accounts_app:profile', username=username)
+
+    template_name = 'accounts_app/edit_profile.html'
+    context = {
+        'target_user': target_user,
+        'user_form': user_form,
+        'profile_form': profile_form,
     }
     return render(request, template_name, context)

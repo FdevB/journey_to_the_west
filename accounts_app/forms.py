@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 
-from accounts_app.models import GradeModel
+from accounts_app.models import GradeModel, ProfileModel
 
 
 class GradeForm(forms.ModelForm):
@@ -42,5 +42,18 @@ class SignupForm(UserCreationForm):
         return user
 
 
-# class ChangeUserDetailForm(forms.Form):
-#     username =
+class ChangeUserDetailForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
+
+class ChangeUserProfileForm(forms.ModelForm):
+
+    class Meta:
+        model = ProfileModel
+        exclude = ['user']
+
+        widgets = {
+            'birth_day': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
+        }

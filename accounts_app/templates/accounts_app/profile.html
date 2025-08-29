@@ -5,7 +5,7 @@
 {% load accounts_tags %}
 
 {% block title %}
-	{{ target_user.username }} Profile
+	{{ target_user.username }}'s Profile
 {% endblock %}
 
 {% block content %}
@@ -61,9 +61,6 @@
 
         <h6>Github:</h6>
         <p>{{ target_user.profile.github|or_default:'-' }}</p>
-
-        <h6>Instagram:</h6>
-        <p>{{ target_user.profile.instagram|or_default:'-' }}</p>
 
         <h6>Birth Day:</h6>
         <p>{{ target_user.profile.birth_day|or_default:'-' }}</p>
