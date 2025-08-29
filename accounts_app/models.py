@@ -7,6 +7,25 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 # Create your models here.
 class ProfileModel(models.Model):
+    """
+    Model definition for ProfileModel.
+
+    Extends the default User model with additional profile information.
+    Each User has a one-to-one relationship with ProfileModel
+
+    Attributes:
+        user (OneToOneField to User): Owner of this profile.
+        avatar (ImageField, optional): Avatar of the user's profile.
+        information (CharField, optional): Short information of the user.
+        birth_day (DateField, optional): User's date of birth.
+        phone (PhoneNumberField), optional: User's phone number.
+        website (URLField, optional): User's website url.
+        github (CharField, optional): User's GitHub username.
+
+    Note:
+        This model uses `phonenumber_field` module for the phone field for convenience. You can use `CharField` and your validators.
+    """
+
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
 
     avatar = models.ImageField(upload_to='accounts/avatars/', default='accounts/avatars/default_avatar.jpg', blank=True)
@@ -25,16 +44,41 @@ class ProfileModel(models.Model):
         return self.user.username
 
     def get_absolute_url(self):
+        """
+        Returns the absolute URL for the profile view of this object.
+
+        The URL is resolved using Django's reverse function based on the
+        view name and the object's username.
+        """
+
         return reverse('accounts_app:profile', kwargs={'username': self.user.username})
 
     @property
     def average_score(self):
+        """
+        Returns the average score of the user from the GradeModel.
+        """
+
         return GradeModel.objects.filter(target_profile=self).aggregate(avg=models.Avg('score'))['avg'] or 0
 
 
 class GradeModel(models.Model):
+    """
+    Model definition for GradeModel.
+
+    Represents a rating that one User (grader) gives to another User (via target_profile).
+    Multiple users can grade multiple profiles (many-to-many via GradeModel).
+    The combination of grader and target_profile is unique.
+
+    Attributes:
+        grader (ForeignKey to User): User who gives the rating.
+        target_profile (ForeignKey to ProfileModel): Profile of the user being rated.
+        score (IntegerField): Score given by user | 0 <= score <= 5.
+    """
+
     grader = models.ForeignKey(User, on_delete=models.CASCADE, related_name='grades')
     target_profile = models.ForeignKey(ProfileModel, on_delete=models.CASCADE, related_name='my_grades')
+
     score = models.IntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(5)])
 
 

@@ -99,7 +99,6 @@ class PostModel(models.Model):
     Model definition for PostModel.
 
     This class defines the PostModel database schema and its related behaviors.
-    This model uses CKEditor for the description field to provide rich text editing capabilities. If not required, it can be replaced with a standard TextField.
 
     Attributes:
         title (CharField): Title of the post.
@@ -114,6 +113,9 @@ class PostModel(models.Model):
         updated_at (DateField): Date when the post was last updated.
         published_at (DateTimeField): Date and time when the post was published.
         slug (SlugField): Slug derived from the title (non-editable).
+
+    Note:
+        This model uses `CKEditor` for the description field to provide rich text editing capabilities. If not required, it can be replaced with a standard `TextField`.
     """
 
     title = models.CharField(max_length=150)

@@ -43,12 +43,20 @@ class SignupForm(UserCreationForm):
 
 
 class ChangeUserDetailForm(forms.ModelForm):
+    """
+    A form for updating basic user information (first name, last name, email).
+    Uses Django's built-in User model.
+    """
 
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email']
 
 class ChangeUserProfileForm(forms.ModelForm):
+    """
+    A form for updating additional profile information from ProfileModel.
+    Excludes the related 'user' field and customizes the 'birth_day' widget.
+    """
 
     class Meta:
         model = ProfileModel

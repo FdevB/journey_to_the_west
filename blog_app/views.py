@@ -29,7 +29,7 @@ def blog_view(request, **kwargs):
     posts = PostModel.objects.filter(status='published')
     search = None
 
-    result = "Read about this journy here"
+    result = "Read about this journey here"
     if category := kwargs.get('category_name'):
         posts = posts.filter(categories__slug=category)
         result = f"result for {category} category"
@@ -71,7 +71,7 @@ def blog_detail_view(request, slug):
 
     Args:
         request (HttpRequest): Required arguments for views.
-        slug (str): a given slug from url.
+        slug (str): a given slug from url to display current post.
 
     Variables:
         post (PostModel or 404): Retrieved post object matching the slug.

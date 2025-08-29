@@ -6,7 +6,7 @@ from info_app.forms import MessageForm
 # Create your views here.
 def about_view(request):
     """
-    View for handling requests to the /about-us/ endpoint.
+    View for handling requests to the /info/about-us/ endpoint.
 
     This view show the template.
 
@@ -26,7 +26,7 @@ def about_view(request):
 
 def contact_view(request):
     """
-    View for handling requests to the /contact-us/ endpoint.
+    View for handling requests to the /info/contact-us/ endpoint.
 
     This view displays the contact form, handles form submission,
     validates the input, and uses Django's messaging framework

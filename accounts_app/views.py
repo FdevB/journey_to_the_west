@@ -13,7 +13,7 @@ from accounts_app.decorators import logout_required
 @logout_required
 def signup_view(request):
     """
-    View for handling requests to the /sign-up/ endpoint for SignupForm.
+    View for handling requests to the /accounts/sign-up/ endpoint for SignupForm.
 
     This view manages user registration.
     If the form is valid, a new user is created, logged in automatically,
@@ -50,10 +50,11 @@ def signup_view(request):
     }
     return render(request, template_name, context)
 
+
 @logout_required
 def login_view(request):
     """
-    View for handling requests to the /log-in/ endpoint for AuthenticationForm.
+    View for handling requests to the /accounts/log-in/ endpoint for AuthenticationForm.
 
     This view manages user login with an optional "remember me" feature.
     If credentials are valid, the user is logged in and redirected to the home page.
@@ -66,7 +67,7 @@ def login_view(request):
 
     Returns:
         HttpResponse: Rendered HTML response with the form for GET or invalid POST requests.
-        HttpResponseRedirect: Redirects to 'home_app:home' after successful login.
+        HttpResponseRedirect: Redirects to `home_app:home` after successful login.
     """
 
     form = AuthenticationForm()
@@ -82,6 +83,7 @@ def login_view(request):
 
             if user := authenticate(request, username=username, password=password):
                 login(request, user)
+
                 messages.success(request, "Logged in successfully.")
                 return redirect('home_app:home')
 
@@ -92,65 +94,114 @@ def login_view(request):
     }
     return render(request, template_name, context)
 
+
 @login_required
 def logout_view(request):
     """
-    View for handling requests to the /log-out/ endpoint.
+    View for handling requests to the /accounts/log-out/ endpoint.
 
     This view manages logging out the currently authenticated user
     and redirects them to the home page.
 
     Arguments:
-    request (HttpRequest): The HTTP request object.
+        request (HttpRequest): The HTTP request object.
 
     Returns:
-    HttpResponseRedirect: Redirects to `home_app:home` after logging out.
+        HttpResponseRedirect: Redirects to `home_app:home` after logging out.
     """
 
     logout(request)
     return redirect('home_app:home')
 
+
 @login_required
 def profile_view(request, username):
+    """
+    View for handling requests to the /accounts/profile/<username> endpoint,
+
+    This view displays the profile of the user with the given username.
+    If the viewing user has not registered a rating, they can rate the user in question.
+
+    Arguments:
+        request (HttpRequest): The HTTP request object.
+        username (str): Given username from url to display current profile.
+
+    Variables:
+        target_user (ProfileModel or 404): Retrieved Profile object matching the username.
+        form (GradeForm): Instance of the ModelForm used to record a score.
+
+    Returns:
+        HttpResponse: Rendered HTML response with the form for GET or invalid POST requests.
+        HttpResponseRedirect: Redirects to `accounts_app:profile` with `username` after successful rating.
+    """
+
     target_user = get_object_or_404(User, username=username)
-    scoring_form = None
+    form = None
 
     if not target_user.profile.my_grades.filter(grader=request.user):
-        scoring_form = GradeForm()
+        form = GradeForm()
         if request.method == 'POST':
-            scoring_form = GradeForm(request.POST)
-            if scoring_form.is_valid():
-                grade = scoring_form.save(commit=False)
+            form = GradeForm(request.POST)
+            if form.is_valid():
+                grade = form.save(commit=False)
+
                 grade.grader = request.user
                 grade.target_profile = target_user.profile
+
                 grade.save()
+
                 return redirect('accounts_app:profile', username=username)
+
 
     template_name = 'accounts_app/profile.html'
     context = {
         'target_user': target_user,
-        'form': scoring_form,
+        'form': form,
     }
     return render(request, template_name, context)
 
+
 @login_required
 def edit_profile_view(request, username):
+    """
+    View for handling requests to the /accounts/profile/<username>/edit/ endpoint,
+    allowing users to update their profile details via ChangeUserDetailForm and ChangeUserProfileForm.
+
+    This view display and edit and update user's profile with given username.
+
+    Arguments:
+        request (HttpRequest): The HTTP request object.
+        username (str): Given username from url to display current profile.
+
+    Variables:
+        target_user (ProfileModel or 404): Retrieved Profile object matching the username.
+        user_form (ChangeUserDetailForm), profile_form (ChangeUserProfileForm):
+            Instance of the ModelForm used to update the object specified by username which is filled with that user's information.
+
+    Returns:
+        HttpResponse: Rendered HTML response with the form for GET or invalid POST requests.
+        HttpResponseRedirect: Redirects to `accounts_app:profile` with `username` after successful changing.
+    """
+
     target_user = get_object_or_404(User, username=username)
 
     user_form = ChangeUserDetailForm(instance=target_user)
     profile_form = ChangeUserProfileForm(instance=target_user.profile)
     if request.method == 'POST':
+
         user_form = ChangeUserDetailForm(request.POST, instance=target_user)
         profile_form = ChangeUserProfileForm(request.POST, files=request.FILES, instance=target_user.profile)
-
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
+
             profile_form.save(commit=False)
             profile_form.user = target_user
             profile_form.save()
 
             messages.success(request, "Your profile Changed successfully.")
+
             return redirect('accounts_app:profile', username=username)
+
 
     template_name = 'accounts_app/edit_profile.html'
     context = {
