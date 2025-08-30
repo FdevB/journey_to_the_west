@@ -4671,9 +4671,13 @@ body.mobile-nav-active #mobile-nav-toggle {
   color: #818182;
 }
 
-.user_detail p, input {
+.user_detail p, .user_detail input {
   margin-top: 10px;
   margin-bottom: 35px;
   color: black;
   font-size: x-large;
+}
+
+.captcha {
+  margin-right: 15px;
 }

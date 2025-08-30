@@ -2,20 +2,21 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 
+from captcha.fields import CaptchaField
+
 from accounts_app.models import GradeModel, ProfileModel
-
-
-class GradeForm(forms.ModelForm):
-
-    class Meta:
-        model = GradeModel
-        fields = ['score']
 
 
 class SignupForm(UserCreationForm):
     """
     SignupForm extends Django's built-in UserCreationForm to include an email field.
+
+    Attributes:
+        captcha (CaptchaField): Ensures the form is submitted by a human.
     """
+
+    captcha = CaptchaField()
+
 
     class Meta:
         model = User
@@ -42,11 +43,28 @@ class SignupForm(UserCreationForm):
         return user
 
 
+class LoginForm(AuthenticationForm):
+    """
+    LoginForm extends Django's built-in AuthenticationForm to include an captcha field.
+
+    Attributes:
+        captcha (CaptchaField): Ensures the form is submitted by a human.
+    """
+
+    captcha = CaptchaField()
+
+
 class ChangeUserDetailForm(forms.ModelForm):
     """
     A form for updating basic user information (first name, last name, email).
     Uses Django's built-in User model.
+
+    Attributes:
+        captcha (CaptchaField): Ensures the form is submitted by a human.
     """
+
+    captcha = CaptchaField()
+
 
     class Meta:
         model = User
@@ -65,3 +83,10 @@ class ChangeUserProfileForm(forms.ModelForm):
         widgets = {
             'birth_day': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
         }
+
+
+class GradeForm(forms.ModelForm):
+
+    class Meta:
+        model = GradeModel
+        fields = ['score']

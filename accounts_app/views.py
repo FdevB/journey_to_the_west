@@ -1,11 +1,10 @@
 from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
-from accounts_app.forms import GradeForm, SignupForm, ChangeUserDetailForm, ChangeUserProfileForm
+from accounts_app.forms import GradeForm, SignupForm, LoginForm, ChangeUserDetailForm, ChangeUserProfileForm
 from accounts_app.decorators import logout_required
 
 
@@ -54,7 +53,7 @@ def signup_view(request):
 @logout_required
 def login_view(request):
     """
-    View for handling requests to the /accounts/log-in/ endpoint for AuthenticationForm.
+    View for handling requests to the /accounts/log-in/ endpoint for LoginForm.
 
     This view manages user login with an optional "remember me" feature.
     If credentials are valid, the user is logged in and redirected to the home page.
@@ -63,16 +62,16 @@ def login_view(request):
         request (HttpRequest): The HTTP request object.
 
     Variables:
-        form (AuthenticationForm): Bound or unbound authentication form instance.
+        form (LoginForm): Bound or unbound authentication form instance.
 
     Returns:
         HttpResponse: Rendered HTML response with the form for GET or invalid POST requests.
         HttpResponseRedirect: Redirects to `home_app:home` after successful login.
     """
 
-    form = AuthenticationForm()
+    form = LoginForm()
     if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
+        form = LoginForm(request, data=request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']

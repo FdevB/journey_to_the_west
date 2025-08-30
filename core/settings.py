@@ -44,10 +44,11 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     'django.contrib.humanize',
     'django_ckeditor_5',
+    'phonenumber_field',
+    'captcha',
     'django_extensions',
     'debug_toolbar',
     'robots',
-    'phonenumber_field',
 ]
 
 MIDDLEWARE = [

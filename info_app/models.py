@@ -29,4 +29,4 @@ class MessageModel(models.Model):
         verbose_name = 'Message'
 
     def __str__(self):
-        return self.title
+        return self.subject

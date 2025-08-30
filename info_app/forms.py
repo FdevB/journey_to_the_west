@@ -1,9 +1,21 @@
 from django import forms
 
+from captcha.fields import CaptchaField
+
 from info_app.models import MessageModel
 
 # create your forms
 class MessageForm(forms.ModelForm):
+    """
+    Form for collecting user messages.
+    Includes a captcha field to prevent spam submissions.
+
+    Attributes:
+        captcha (CaptchaField): Ensures the form is submitted by a human.
+    """
+
+    captcha = CaptchaField()
+
 
     class Meta:
         model = MessageModel

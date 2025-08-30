@@ -32,6 +32,7 @@ urlpatterns = [
 
     # Library
     path('ckeditor/', include('django_ckeditor_5.urls')),
+    path('captcha/', include('captcha.urls')),
 
     # SiteMap
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
