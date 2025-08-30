@@ -15,12 +15,16 @@ class ProfileModel(models.Model):
 
     Attributes:
         user (OneToOneField to User): Owner of this profile.
+        role (CharField): role of the user (*reader or critic or writer).
         avatar (ImageField, optional): Avatar of the user's profile.
         information (CharField, optional): Short information of the user.
         birth_day (DateField, optional): User's date of birth.
-        phone (PhoneNumberField), optional: User's phone number.
+        phone (PhoneNumberField, optional): User's phone number.
         website (URLField, optional): User's website url.
         github (CharField, optional): User's GitHub username.
+
+    Variables:
+        ROLE_CHOICES (list[tuple(str, str)]): Available choices for user role.
 
     Note:
         This model uses `phonenumber_field` module for the phone field for convenience. You can use `CharField` and your validators.
@@ -28,10 +32,17 @@ class ProfileModel(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
 
+    ROLE_CHOICES = [
+        ('reader', 'Reader'),
+        ('critic', 'Critic'),
+        ('writer', 'Writer'),
+    ]
+    role = models.CharField(max_length=6, choices=ROLE_CHOICES, blank=True, default='reader')
+
     avatar = models.ImageField(upload_to='accounts/avatars/', default='accounts/avatars/default_avatar.jpg', blank=True)
     information = models.CharField(max_length=100, blank=True, null=True)
     birth_day = models.DateField(blank=True, null=True)
-    phone = PhoneNumberField(blank=True)
+    phone = PhoneNumberField(blank=True, null=True)
 
     website = models.URLField(blank=True, null=True)
     github = models.CharField(max_length=50, blank=True, null=True)

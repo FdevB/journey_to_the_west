@@ -107,12 +107,15 @@ class PostModel(models.Model):
         author (ForeignKey to User): Author of the post.
         categories (ManyToManyField to CategoryModel): Categories assigned to the post.
         tags (ManyToManyField to TagModel): Tags assigned to the post.
-        status (BooleanField): Status of the post (published or draft).
+        status (CharField): Status of the post (published or *draft).
         views (BigIntegerField): Number of views for the post.
         created_at (DateField): Date when the post was created.
         updated_at (DateField): Date when the post was last updated.
         published_at (DateTimeField): Date and time when the post was published.
         slug (SlugField): Slug derived from the title (non-editable).
+
+    Variables:
+        STATUS_CHOICES (list[tuple(str, str)]): Available choices for post status.
 
     Note:
         This model uses `CKEditor` for the description field to provide rich text editing capabilities. If not required, it can be replaced with a standard `TextField`.
