@@ -3,9 +3,11 @@ from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 
+from accounts_app.decorators import role_required
 from blog_app.models import PostModel
 
 # Create your views here.
+@role_required(['reader'])
 def blog_view(request, **kwargs):
     """
     View for handling requests to the /blog/ endpoint for PostModel.
@@ -19,6 +21,7 @@ def blog_view(request, **kwargs):
 
     Variables:
         posts (QuerySet[PostModel]): All posts retrieved from the database or filtered based on needs.
+        result (str): An string for display on templates.
         template_name (str): Path to the template file.
         context (dict): Context data sent to the template.
     

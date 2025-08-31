@@ -78,7 +78,7 @@ class ChangeUserProfileForm(forms.ModelForm):
 
     class Meta:
         model = ProfileModel
-        exclude = ['user']
+        exclude = ['user', 'role']
 
         widgets = {
             'birth_day': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),

@@ -4590,6 +4590,13 @@ body.mobile-nav-active #mobile-nav-toggle {
   animation: show_msg 5s forwards;
 }
 
+.warning {
+  background-color: rgb(134, 68, 0);
+  border-color: #d05e00;
+  box-shadow: 0 0 20px rgba(134, 68, 0, 0.5);;
+  animation: show_msg 5s forwards;
+}
+
 .auth-btn {
   background-color: #f8b600;
   margin-left: 35px !important;
