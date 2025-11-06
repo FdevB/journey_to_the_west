@@ -7,7 +7,6 @@ from accounts_app.decorators import role_required
 from blog_app.models import PostModel
 
 # Create your views here.
-@role_required(['reader'])
 def blog_view(request, **kwargs):
     """
     View for handling requests to the /blog/ endpoint for PostModel.

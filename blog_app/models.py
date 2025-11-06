@@ -189,3 +189,35 @@ class PostModel(models.Model):
         # )
 
         super().save(*args, **kwargs)
+
+
+class CommentModel(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
+    for_post = models.ForeignKey(PostModel, on_delete=models.CASCADE, related_name='comments')
+
+    text = models.TextField()
+
+    sent_at = models.DateTimeField(auto_now_add=True)
+
+
+    class Meta:
+        verbose_name = 'Comment'
+
+    def __str__(self):
+        return f"{self.author} sent comment for {self.for_post}"
+
+class CommentReplyModel(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reply_comments')
+    for_comment = models.ForeignKey(CommentModel, on_delete=models.CASCADE, related_name='reply_comments')
+
+    text = models.TextField()
+
+    sent_at = models.DateTimeField(auto_now_add=True)
+
+
+    class Meta:
+        verbose_name = 'Comment reply'
+        verbose_name_plural = 'Comment replies'
+
+    def __str__(self):
+        return f"{self.author} reply to {self.for_comment}"

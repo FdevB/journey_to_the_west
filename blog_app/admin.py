@@ -49,3 +49,13 @@ class PostAdmin(admin.ModelAdmin):
     list_filter = ['author', 'categories', 'tags', 'status', 'updated_at']
     search_fields = ['title']
     readonly_fields = ['slug']
+
+
+@admin.register(models.CommentModel)
+class CommentAdmin(admin.ModelAdmin):
+    '''Admin View for CommentModel'''
+
+    list_display = ['author', 'for_post', 'sent_at']
+    list_filter = ['author', 'for_post']
+
+admin.site.register(models.CommentReplyModel)
