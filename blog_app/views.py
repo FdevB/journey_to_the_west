@@ -1,4 +1,5 @@
 from django.db.models.expressions import result
+from django.core.cache import cache
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
@@ -28,7 +29,11 @@ def blog_view(request, **kwargs):
         HttpResponse: Rendered HTML response with context data.
     """
 
-    posts = PostModel.objects.filter(status='published')
+    posts = cache.get('published_posts')
+    if posts is None:
+        posts = PostModel.objects.filter(status='published')
+        cache.set('published_posts', posts, timeout=60 * 60)
+
     search = None
 
     result = "Read about this journey here"
@@ -84,9 +89,13 @@ def blog_detail_view(request, slug):
         HttpResponse: Rendered HTML response with context data.
     """
 
-    post = get_object_or_404(PostModel, slug=slug)
-    post.views += 1
-    post.save()
+    cache_key = f"post_detail:{slug}"
+    post = cache.get(cache_key)
+    if post is None:
+        post = get_object_or_404(PostModel, slug=slug)
+        post.views += 1
+        post.save()
+        cache.set(cache_key, post, timeout=60 * 60 * 24)
 
 
     template_name = 'blog_app/blog_detail.html'

@@ -275,3 +275,24 @@ CKEDITOR_5_CONFIGS  = {
 # ]
 # BLEACH_STRIP_TAGS = False
 # BLEACH_STRIP_COMMENTS = False
+
+# Caching CONFIGURATION
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            'SOCKET_CONNECT_TIMEOUT': 5,
+            'SOCKET_TIMEOUT': 5,
+            'RETRY_ON_TIMEOUT': True,
+            'CONNECTION_POOL_CLASS': 'redis.connection.BlockingConnectionPool',
+            'CONNECTION_POOL_CLASS_KWARGS': {
+                'max_connections': 50,
+                'timeout': 5,
+            }
+        },
+        'KEY_PREFIX': 'myapp',
+        'TIMEOUT': 60,
+    }
+}

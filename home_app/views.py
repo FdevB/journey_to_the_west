@@ -1,9 +1,10 @@
 from django.shortcuts import render
+from django.views.generic.base import TemplateView
 
 from blog_app.models import PostModel
 
 # Create your views here.
-def home_view(request):
+class HomeView(TemplateView):
     """
     View for handling requests to the / endpoint.
 
@@ -20,4 +21,8 @@ def home_view(request):
     """
 
     template_name = 'home_app/index.html'
-    return render(request, template_name)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['latest_post'] = PostModel.objects.all()[:3]
+        return context
